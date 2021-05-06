@@ -1,0 +1,52 @@
+{
+  "name": "@ergatejs/gatsby-source-yuque",
+  "version": "1.0.0",
+  "description": "Gatsby source plugin for Yuque",
+  "keywords": [
+    "gatsby",
+    "ghost",
+    "gatsby-plugin",
+    "gatsby-source-plugin"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "ci": "npm run test",
+    "dev": "tsc -w",
+    "lint": "eslint . --ext .ts",
+    "clean": "./scripts/clean.sh",
+    "semantic-release": "tsc && semantic-release",
+    "test": "jest --verbose",
+    "test-watch": "jest --watch"
+  },
+  "dependencies": {
+    "debug": "^4.3.1",
+    "gatsby": "^3.4.1",
+    "gatsby-node-helpers": "0.3.0",
+    "yuque-loader": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.4",
+    "@types/jest": "^24.0.13",
+    "@types/node": "^12.0.2",
+    "eslint": "^7.7.0",
+    "eslint-config-egg": "^7.5.1",
+    "eslint-plugin-jest": "^22.17.0",
+    "jest": "^24.8.0",
+    "mz-modules": "^2.1.0",
+    "semantic-release": "^15.13.18",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.4.5"
+  },
+  "release": {
+    "branche": "master",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ]
+  },
+  "author": "Suyi <thonatos.yang@gmail.com>",
+  "license": "MIT"
+}
