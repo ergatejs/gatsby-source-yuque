@@ -1,0 +1,40 @@
+name: Node.js Release
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [12]
+        os: [ubuntu-latest]
+
+    steps:
+    - name: Checkout Git Source
+      uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install Dependencies
+      run: npm i -g npminstall && npminstall
+
+    - name: Continuous Integration
+      run: npm run ci
+      env:
+        YUQUE_TOKEN: ${{ secrets.YUQUE_TOKEN }}
+        YUQUE_GROUP: eggjs-dev
+        YUQUE_ENDPOINT: https://www.yuque.com/api/v2/
+
+    - name: Semantic Release
+      run: npm run semantic-release
+      env:
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        

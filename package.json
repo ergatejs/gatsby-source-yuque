@@ -28,6 +28,7 @@
     "@types/debug": "^4.1.4",
     "@types/jest": "^24.0.13",
     "@types/node": "^12.0.2",
+    "egg-ci": "^1.18.0",
     "eslint": "^7.7.0",
     "eslint-config-egg": "^7.5.1",
     "eslint-plugin-jest": "^22.17.0",
@@ -46,6 +47,16 @@
       "@semantic-release/npm",
       "@semantic-release/github"
     ]
+  },
+  "ci": {
+    "type": "github",
+    "os": {
+      "github": "linux"
+    },
+    "version": "12",
+    "command": {
+      "github": "ci"
+    }
   },
   "author": "Suyi <thonatos.yang@gmail.com>",
   "license": "MIT"

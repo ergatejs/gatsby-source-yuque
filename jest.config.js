@@ -5,7 +5,7 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
-  collectCoverage: false,
+  collectCoverage: true,
   /**
    * compile typescript to js before running jest
    */
