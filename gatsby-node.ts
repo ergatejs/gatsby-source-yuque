@@ -49,7 +49,6 @@ export const sourceNodes = async ({ actions, reporter }, options: IOption) => {
     await Promise.all(
       docs.map(async doc => {
 
-
         createNode(DocNode(doc));
 
         const { slug: docSlug } = doc;
@@ -88,7 +87,7 @@ export const sourceNodes = async ({ actions, reporter }, options: IOption) => {
             }
 
             if (!fs.existsSync(targetAsset)) {
-              reporter.info(`Download:doc:${slug}:asset from ${originUrl} to ${targetAsset}`);
+              debug(`Download:doc:${slug}:asset from ${originUrl} to ${targetAsset}`);
 
               const { data } = await urllib.request(originUrl);
               fs.writeFileSync(targetAsset, data);
