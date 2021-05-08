@@ -64,37 +64,43 @@ export const sourceNodes = async ({ actions, reporter }, options: IOption) => {
           }
 
           const dom = new JSDOM(body_html);
+          const images: Array<any> = [];
 
-          dom.window.document.querySelectorAll('img').forEach(async img => {
-            const originUrl = img.src;
+          dom.window.document.querySelectorAll('img').forEach(img => images.push(img));
 
-            if (originUrl.startsWith('data:image')) {
-              return;
-            }
+          await Promise.all(
 
-            const { pathname } = new url.URL(originUrl);
-            const { ext } = path.parse(pathname);
+            images.map(async img => {
+              const originUrl = img.src;
 
-            const hash = crypto.createHash('sha256').update(originUrl).digest('hex');
-            const target = `${hash}${ext}`;
+              if (originUrl.startsWith('data:image')) {
+                return;
+              }
 
-            const targetDir = path.join(STATIC_DIR, dirPrefix);
-            const targetAsset = path.join(targetDir, target);
-            const targetUrl = path.join(STATIC_URL, dirPrefix, target);
+              const { pathname } = new url.URL(originUrl);
+              const { ext } = path.parse(pathname);
 
-            if (!fs.existsSync(targetDir)) {
-              fs.mkdirSync(targetDir);
-            }
+              const hash = crypto.createHash('sha256').update(originUrl).digest('hex');
+              const target = `${hash}${ext}`;
 
-            if (!fs.existsSync(targetAsset)) {
-              debug(`Download:doc:${slug}:asset from ${originUrl} to ${targetAsset}`);
+              const targetDir = path.join(STATIC_DIR, dirPrefix);
+              const targetAsset = path.join(targetDir, target);
+              const targetUrl = path.join(STATIC_URL, dirPrefix, target);
 
-              const { data } = await urllib.request(originUrl);
-              fs.writeFileSync(targetAsset, data);
-            }
+              if (!fs.existsSync(targetDir)) {
+                fs.mkdirSync(targetDir);
+              }
 
-            img.src = targetUrl;
-          });
+              if (!fs.existsSync(targetAsset)) {
+                debug(`Download:doc:${slug}:asset from ${originUrl} to ${targetAsset}`);
+
+                const { data } = await urllib.request(originUrl);
+                fs.writeFileSync(targetAsset, data);
+              }
+
+              img.src = targetUrl;
+            }),
+          );
 
           createNode(DocDetailNode({
             ...doc,
