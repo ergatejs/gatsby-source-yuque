@@ -29,6 +29,7 @@ export const sourceNodes = async ({ actions, reporter }, options: IOption) => {
   const { dirPrefix = '/' } = assets || {};
 
   const STATIC_DIR = path.resolve('static');
+  const STATIC_URL = path.resolve('/');
 
   const loader = new Loader({
     yuque,
@@ -80,7 +81,7 @@ export const sourceNodes = async ({ actions, reporter }, options: IOption) => {
 
             const targetDir = path.join(STATIC_DIR, dirPrefix);
             const targetAsset = path.join(targetDir, target);
-            const targetUrl = path.join(dirPrefix, target);
+            const targetUrl = path.join(STATIC_URL, dirPrefix, target);
 
             if (!fs.existsSync(targetDir)) {
               fs.mkdirSync(targetDir);
@@ -96,9 +97,10 @@ export const sourceNodes = async ({ actions, reporter }, options: IOption) => {
             img.src = targetUrl;
           });
 
-          doc.body_html = dom.window.document.body.innerHTML;
-
-          createNode(DocDetailNode(doc));
+          createNode(DocDetailNode({
+            ...doc,
+            body_html: dom.window.document.body.innerHTML,
+          }));
         });
       }),
     );
