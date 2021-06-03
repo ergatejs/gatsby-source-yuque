@@ -77,6 +77,10 @@ export const sourceNodes = async ({ actions, reporter }, options: IOption) => {
                 return;
               }
 
+              if(!originUrl.includes('lark') || !originUrl.includes('alicdn')) {
+                return;
+              }
+
               const { pathname } = new url.URL(originUrl);
               const { ext } = path.parse(pathname);
 
