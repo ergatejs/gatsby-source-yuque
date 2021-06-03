@@ -26,7 +26,7 @@ export const sourceNodes = async ({ actions, reporter }, options: IOption) => {
   debug('options', options);
 
   const { user, group, queue, yuque, filter, assets } = options;
-  const { dirPrefix = '/' } = assets || {};
+  const { dirPrefix = '/', remotePrefix = '' } = assets || {};
 
   const STATIC_DIR = path.resolve('static');
   const STATIC_URL = path.resolve('/');
@@ -85,7 +85,9 @@ export const sourceNodes = async ({ actions, reporter }, options: IOption) => {
 
               const targetDir = path.join(STATIC_DIR, dirPrefix);
               const targetAsset = path.join(targetDir, target);
-              const targetUrl = path.join(STATIC_URL, dirPrefix, target);
+              const targetUrl = !!remotePrefix 
+                ? path.join(STATIC_URL, dirPrefix, target)
+                : path.join(remotePrefix, target);
 
               if (!fs.existsSync(targetDir)) {
                 fs.mkdirSync(targetDir);
@@ -140,5 +142,6 @@ interface IOption {
   };
   assets?: {
     dirPrefix?: string;
+    remotePrefix?: string;
   }
 }
