@@ -90,8 +90,8 @@ export const sourceNodes = async ({ actions, reporter }, options: IOption) => {
               const targetDir = path.join(STATIC_DIR, dirPrefix);
               const targetAsset = path.join(targetDir, target);
               const targetUrl = !!remotePrefix 
-                ? path.join(STATIC_URL, dirPrefix, target)
-                : path.join(remotePrefix, target);
+                ? path.join(remotePrefix, target)
+                : path.join(STATIC_URL, dirPrefix, target);
 
               if (!fs.existsSync(targetDir)) {
                 fs.mkdirSync(targetDir);
